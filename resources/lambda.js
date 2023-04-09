@@ -21,6 +21,7 @@ function generateHTML(senderEmail, senderName, message, subject, date) {
             <style> 
             * {
                 font-family: sans-serif;
+                font-size: 16px;
             }
             .title { 
                 font-weight: 700;
@@ -31,22 +32,22 @@ function generateHTML(senderEmail, senderName, message, subject, date) {
             .title { 
                 display: inline-block; width: 100px; 
             }
-            .title-div {
-                font-size: 16px
-            }
             </style>
             </head>
             <body>
-            <div class='title-div'>
-                <span class='title'>👨 Sender: </span><span>${senderName} (${senderEmail})</span>
-            </div>
-            <div class='title-div'>
-                <span class='title'>📢 Subject: </span><span>${subject}</span>
-            </div>
-            <div class='title-div'>
-                <span class='title'>📅 Date: </span><span>${date}</span>
-            </div>
-            <div class='message'>${message.replace(/\n/g,'<br/>')}</div>
+                <div style="display: none; max-height: 0px; overflow: hidden;">
+                    ${message.replace(/\n/g,'<br/>')}
+                </div>
+                <div class='title-div'>
+                    <span class='title'>👨 Sender: </span><span>${senderName} (${senderEmail})</span>
+                </div>
+                <div class='title-div'>
+                    <span class='title'>📢 Subject: </span><span>${subject}</span>
+                </div>
+                <div class='title-div'>
+                    <span class='title'>📅 Date: </span><span>${date}</span>
+                </div>
+                <div class='message'>${message.replace(/\n/g,'<br/>')}</div>
             </body>
         </html>
     `
