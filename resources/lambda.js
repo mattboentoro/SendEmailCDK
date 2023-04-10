@@ -11,6 +11,7 @@ async function sendEmail(senderEmail, senderName, message, subject, date) {
       subject: `[From MyWebsite] ${subject}`,
       text: message,
       html: generateHTML(senderEmail, senderName, message, subject, date),
+      replyTo: senderEmail
   });
 }
 
