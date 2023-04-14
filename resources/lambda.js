@@ -1,7 +1,7 @@
 const aws = require("aws-sdk");
 const nodemailer = require("nodemailer");
 
-async function sendEmail(senderEmail, senderName, message, subject, date, ipAddress, country, countryCode) {
+async function sendEmail(senderEmail, senderName, message, subject, date, ipAddress, country, countryCode, region) {
   let transporter = nodemailer.createTransport({
     SES: new aws.SES({ region: "us-west-2", apiVersion: "2010-12-01" }),
   });
@@ -10,7 +10,7 @@ async function sendEmail(senderEmail, senderName, message, subject, date, ipAddr
       to: "mattboentoro@yahoo.com",
       subject: `🛎️ [From MyWebsite] ${subject}`,
       text: message,
-      html: generateHTML(senderEmail, senderName, message, date, ipAddress, country, countryCode),
+      html: generateHTML(senderEmail, senderName, message, date, ipAddress, country, countryCode, region),
       replyTo: senderEmail
   });
 }
@@ -23,7 +23,7 @@ function getFlagEmoji(countryCode) {
     return String.fromCodePoint(...codePoints);
   }
 
-function generateHTML(senderEmail, senderName, message, date, ipAddress, country, countryCode) {
+function generateHTML(senderEmail, senderName, message, date, ipAddress, country, countryCode, region) {
     return `
         <html>
             <head>
@@ -60,8 +60,11 @@ function generateHTML(senderEmail, senderName, message, date, ipAddress, country
                     <span class='title'>🚩 </span><span class='sender-detail'>${ipAddress}</span>
                 </div>
                 <div class='title-div'>
-                <span class='title'>📌 </span><span class='sender-detail'>${country} ${getFlagEmoji(countryCode)}</span>
-            </div>
+                    <span class='title'>📌 </span><span class='sender-detail'>${region}</span>
+                </div>
+                <div class='title-div'>
+                    <span class='title'>🌏 </span><span class='sender-detail'>${country} ${getFlagEmoji(countryCode)}</span>
+                </div>
                 <div class='message'>${message.replace(/\n/g,'<br/>')}</div>
             </body>
         </html>
@@ -69,12 +72,12 @@ function generateHTML(senderEmail, senderName, message, date, ipAddress, country
 }
 
 exports.main = async (event) => {
-  const { senderEmail, senderName, message, subject, date, ipAddress, country, countryCode } = JSON.parse(
+  const { senderEmail, senderName, message, subject, date, ipAddress, country, countryCode, region } = JSON.parse(
     event.body
   );
 
   try {
-    await sendEmail(senderEmail, senderName, message, subject, date, ipAddress, country, countryCode);
+    await sendEmail(senderEmail, senderName, message, subject, date, ipAddress, country, countryCode, region);
     return {
       statusCode: 200,
       message: "Email sent successfully!"
