@@ -20,7 +20,7 @@
     "@aws-cdk/aws-lambda": "^1.198.1",
     "@aws-cdk/aws-s3": "^1.198.1",
     "@aws-cdk/core": "^1.198.1",
-    "aws-cdk-lib": "2.73.0",
+    "aws-cdk-lib": "^2.73.0",
     "aws-sdk": "^2.1353.0",
     "constructs": "^10.0.0",
     "nodemailer": "^6.9.1"
